@@ -1,0 +1,15 @@
+<ion-content class="bg-img">
+  <div class="profile-image">
+  <img src="{{imgUrl}}">
+  {{imgUrl}}
+  </div>
+  <div>
+      <button ion-button round outline (click)="choseImage()">Choose a Image </button>
+  </div>
+  <div [hidden]="!moveon">
+      <button ion-button round outline (click)="proceed()">Skip this Step</button>
+  </div>
+  <div [hidden]="moveon">
+      <button ion-button round outline (click)="updateproceed()">Upload and Proceed</button>
+  </div>
+</ion-content>

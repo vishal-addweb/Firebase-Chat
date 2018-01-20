@@ -1,0 +1,27 @@
+<ion-content class="bg-img">
+  <ion-card>
+
+      <ion-card-header>
+          Ragister
+      </ion-card-header>
+      <ion-card-content>
+          <ion-list>
+            <ion-item>
+                <ion-input type="text" placeholder="Username" name="username" [(ngModel)]="newuser.username"></ion-input>
+            </ion-item>
+              <ion-item>
+                  <ion-input type="email" placeholder="Email" name="email" [(ngModel)]="newuser.email"></ion-input>
+              </ion-item>
+              <ion-item>
+                  <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="newuser.password"></ion-input>
+              </ion-item>
+
+              <!-- <ion-item> -->
+              <button ion-button round outline (click)="doSignup()">Sign Up</button>
+              <button ion-button round outline (click)="doLogin()">Go back Login</button>
+              <!-- </ion-item>
+              <a (click)="forgePassword()"><b>Forget Login Detail</b></a> -->
+          </ion-list>
+      </ion-card-content>
+  </ion-card>
+</ion-content>
