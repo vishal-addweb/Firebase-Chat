@@ -38,27 +38,28 @@ export class UserProvider {
     })
     return promise
   }
-  updateimage(imageurl ){
-      var promise = new Promise ((resolve , reject) => {
-        this.afireAuth.auth.currentUser.updateProfile({
-          displayName:this.afireAuth.auth.currentUser.displayName,
-          photoURL:imageurl
-        }).then(()=>{
-            firebase.database().ref('/users/' + firebase.auth().currentUser.uid).update({
-            displayName:this.afireAuth.auth.currentUser.displayName,
-            photoURL:imageurl,
-            uid:firebase.auth().currentUser.uid
-            }).then(()=>{
-              resolve(true);
-              }).catch((err)=>{
-                reject(err);
+  updateimage(imageurl) {
+      var promise = new Promise((resolve, reject) => {
+          this.afireAuth.auth.currentUser.updateProfile({
+              displayName: this.afireAuth.auth.currentUser.displayName,
+              photoURL: imageurl
+          }).then(() => {
+            this.firedata.child(this.afireAuth.auth.currentUser.uid).update({photoURL:imageurl}).then(() => {
+              firebase.database().ref('/users/' + firebase.auth().currentUser.uid).update({
+              displayName: this.afireAuth.auth.currentUser.displayName,
+              photoURL: imageurl,
+              uid: firebase.auth().currentUser.uid
+              }).then(() => {
+                  resolve({ success: true });
+                  }).catch((err) => {
+                      reject(err);
+                  })
             })
-
-        }).catch((err)=>{
-          reject(err);
-        })
-    })
-    return promise;
+          }).catch((err) => {
+                reject(err);
+             })
+      })
+      return promise;
   }
   getuserdetails(){
     var promise = new Promise((resolve , reject) => {

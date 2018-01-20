@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,LoadingController } from 'ionic-angular';
 import { ImagehandlerProvider } from '../../providers/imagehandler/imagehandler';
 import { UserProvider } from '../../providers/user/user';
 
@@ -16,30 +16,46 @@ import { UserProvider } from '../../providers/user/user';
   templateUrl: 'profilepic.html',
 })
 export class ProfilepicPage {
-  imgUrl= 'https://www.limestone.edu/sites/default/files/user.png';
+  imgurl= 'https://www.limestone.edu/sites/default/files/user.png';
   moveon = true;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public imageService :ImagehandlerProvider, public zone :NgZone, public userservice : UserProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public imgservice: ImagehandlerProvider, public zone: NgZone, public userservice: UserProvider, public loadingCtrl: LoadingController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilepicPage');
   }
-  choseImage(){
-      this.imageService.uploadimage().then((uplodedurl : any)=>{
-          this.zone.run(()=>{
-            this.imgUrl = uplodedurl;
-            this.moveon = false;
-          })
+  choseImage() {
+    let loader = this.loadingCtrl.create({
+      content: 'Please wait'
+    })
+    loader.present();
+    this.imgservice.uploadimage().then((uploadedurl: any) => {
+      loader.dismiss();
+      this.zone.run(() => {
+        this.imgurl = uploadedurl;
+        this.moveon = false;
       })
+    })
   }
-  updateproceed(){
-      this.userservice.updateimage(this.imgUrl).then((res)=>{
-        if(res){
-          this.navCtrl.setRoot('TabsPage');
-        }
-      })
+
+  updateproceed() {
+    let loader = this.loadingCtrl.create({
+      content: 'Please wait'
+    })
+    loader.present();
+    this.userservice.updateimage(this.imgurl).then((res: any) => {
+      loader.dismiss();
+      if (res.success) {
+        this.navCtrl.setRoot('TabsPage');
+      }
+      else {
+        alert(res);
+      }
+    })
   }
-  proceed(){
+
+  proceed() {
     this.navCtrl.setRoot('TabsPage');
   }
+
 }
