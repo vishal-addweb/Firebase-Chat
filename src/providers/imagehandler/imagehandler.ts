@@ -17,9 +17,10 @@ export class ImagehandlerProvider {
       this.fileChooser.open().then((url) => {
         this.filePath.resolveNativePath(url).then((result) => {
           this.nativepath = result;
-          this.file.resolveLocalFilesystemUrl(result).then((res) => {
+          this.file.resolveLocalFilesystemUrl(result).then((res:any) => {
 
             res.file((resFile) => {
+
               var reader = new FileReader();
               reader.readAsArrayBuffer(resFile);
               reader.onloadend = (evt: any) => {
