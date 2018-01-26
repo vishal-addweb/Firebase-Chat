@@ -1,6 +1,7 @@
 import { Component , NgZone } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/user';
+import { ChatProvider } from '../../providers/chat/chat';
 import { ImagehandlerProvider } from '../../providers/imagehandler/imagehandler';
 import firebase from 'firebase';
 
@@ -19,7 +20,7 @@ import firebase from 'firebase';
 export class ProfilePage {
   username : string;
   avatar:string;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public userservice: UserProvider,public zone:NgZone , public alertCtrl: AlertController, public imghandler: ImagehandlerProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public userservice: UserProvider,public zone:NgZone , public alertCtrl: AlertController, public imghandler: ImagehandlerProvider,public chatservice: ChatProvider) {
   }
 
   ionViewWillEnter() {
@@ -35,9 +36,13 @@ export class ProfilePage {
    })
  }
  logout() {
-    firebase.auth().signOut().then(() => {
-      this.navCtrl.parent.parent.setRoot('LoginPage');
-    })
+   this.chatservice.setStatusOffline().then((res)=>{
+     if(res){
+       firebase.auth().signOut().then(() => {
+         this.navCtrl.parent.parent.setRoot('LoginPage');
+       })
+     }
+   })
   }
 
   editname() {

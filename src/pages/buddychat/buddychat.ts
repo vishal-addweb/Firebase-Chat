@@ -16,6 +16,7 @@ export class BuddychatPage {
   allmessages = [];
   photoURL;
   imgornot;
+  buddyStatus:any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public chatservice: ChatProvider,public events: Events, public zone: NgZone,public loadingCtrl : LoadingController, public imgstore: ImagehandlerProvider) {
     this.buddy = this.chatservice.buddy;
       this.photoURL = firebase.auth().currentUser.photoURL;
@@ -32,12 +33,17 @@ export class BuddychatPage {
               this.imgornot.push(false);
           }
         })
-
-
       })
+        this.events.subscribe('onlieStatus', () => {
+          this.zone.run(() => {
+            this.buddyStatus = this.chatservice.buddyStatus;
+          })
+        })
   }
   ionViewDidEnter() {
       this.chatservice.getbuddymessages();
+      this.chatservice.getbuddyStatus();
+
   }
   addmessage() {
     this.chatservice.addnewmessage(this.newmessage).then(() => {

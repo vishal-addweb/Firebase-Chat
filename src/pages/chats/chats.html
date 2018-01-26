@@ -20,10 +20,11 @@
   </ion-list-header>
   <ion-item-sliding *ngFor="let item of myrequests">
     <ion-item>
-    <ion-avatar item-left>
-      <img src="{{item.photoURL}}">
-    </ion-avatar>
-    <h4>{{item.displayName}}</h4>
+      <ion-avatar item-left>
+        <img src="{{item.photoURL}}">
+      </ion-avatar>
+      <h4>{{item.displayName}}</h4>
+      <button ion-button round outline color="dark" item-right right>1</button>
     </ion-item>
     <ion-item-options>
       <button ion-button color="secondary" (click)="accept(item)">
@@ -44,6 +45,7 @@
       <img src={{item.photoURL}}>
     </ion-avatar>
     <h3>{{item.displayName}}</h3>
+    <button ion-button round color="danger" item-right right>{{messagecounter}}</button>
   </ion-item>
 </ion-list>
 </ion-content>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { IonicPage, NavController, NavParams ,Events ,AlertController} from 'ionic-angular';
 import { RequestsProvider } from '../../providers/requests/requests';
 import { ChatProvider } from '../../providers/chat/chat';
@@ -17,12 +17,22 @@ import { ChatProvider } from '../../providers/chat/chat';
 export class ChatsPage {
   myrequests;
   myfriends;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public requestservice: RequestsProvider,public events: Events,public alertCtrl : AlertController, public chatservice : ChatProvider) {
+  messagecounter;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public requestservice: RequestsProvider,public events: Events,public alertCtrl : AlertController, public chatservice : ChatProvider,public zone :NgZone) {
+    this.setStatus();
+    this.events.subscribe('counter', () => {
+      this.zone.run(()=>{
+        this.messagecounter= this.chatservice.msgcount;
+        console.log(this.messagecounter);
+      })
+    })
+
   }
 
   ionViewWillEnter() {
     this.requestservice.getmyrequests();
     this.requestservice.getmyfriends();
+
     this.myfriends = [];
     this.events.subscribe('gotrequests', () => {
       this.myrequests = [];
@@ -31,6 +41,12 @@ export class ChatsPage {
     this.events.subscribe('friends', () => {
       this.myfriends = [];
       this.myfriends = this.requestservice.myfriends;
+      for(let i = 0;i<this.myfriends.length;i++){
+
+        console.log('user > ',this.myfriends[i])
+        this.chatservice.getmsgCounter(this.myfriends[i]);
+      }
+
     })
   }
 
@@ -60,5 +76,14 @@ accept(item) {
   buddychat(buddy) {
     this.chatservice.initializebuddy(buddy);
     this.navCtrl.push('BuddychatPage');
+  }
+  setStatus(){
+    this.chatservice.setstatusUser().then((res)=>{
+      if(res){
+        console.log('User Online');
+      }
+    }).catch((err)=>{
+        alert(err);
+    })
   }
 }

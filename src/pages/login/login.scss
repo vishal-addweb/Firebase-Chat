@@ -5,4 +5,29 @@ page-login {
         background-repeat: no-repeat;
         background-position: center;
     }
+    .container-bottom {
+    // @include inline-flex;
+    margin-top: 75%;
+    // @include flex-wrap(wrap);
+    // @include align-self(flex-end);
+  }
+  form {
+    .button-md,
+    .button-ios {
+      margin: 0px !important;
+      background-color: #fff;
+      padding: 26px !important;
+    }
+  }
+  .form-bottom-text {
+    display: inline-block;
+    width: 100%;
+  }
+  .form-bottom-text label,
+  a {
+    color: #000;
+  }
+  .button-container button {
+    border-radius: 1;
+  }
 }

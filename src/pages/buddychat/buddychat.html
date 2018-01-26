@@ -1,6 +1,9 @@
 <ion-header>
   <ion-navbar color="dark">
-    <ion-title>{{buddy.displayName}}</ion-title>
+    <ion-title>
+      {{buddy.displayName}}
+      <br><p class="statusclass">{{buddyStatus}}</p>
+    </ion-title>
      <ion-buttons end>
        <button ion-button (click)="sendPicMsg()">
        <ion-icon name="camera"></ion-icon>
