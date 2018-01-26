@@ -53,7 +53,7 @@ export class RequestsProvider {
       })
     }
     acceptrequest(buddy) {
-      var myfriends = [];
+      // var myfriends = [];
       var promise = new Promise((resolve, reject) => {
         this.firefriends.child(firebase.auth().currentUser.uid).push({
           uid: buddy.uid
